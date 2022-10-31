@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
           "product-name": qn.docs[i]["product-name"],
           "product-description": qn.docs[i]["product-description"],
           "product-price": qn.docs[i]["product-price"],
+          "product-available": qn.docs[i]["product-available"],
           "product-img": qn.docs[i]["product-img"],
         });
       }
@@ -174,7 +175,20 @@ class _HomeState extends State<Home> {
                                     fontSize: 18.0),
                               ),
                               Text(
-                                  "${_products[index]["product-price"].toString()} TK"),
+                                "${_products[index]["product-price"].toString()} TK",
+                                style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                  //fontSize: 18.0
+                                ),
+                              ),
+                              Text(
+                                "${_products[index]["product-available"]}",
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                    fontSize: 10.0),
+                              ),
                             ],
                           ),
                         ),
@@ -220,11 +234,11 @@ class _HomeState extends State<Home> {
                         crossAxisCount: 1, childAspectRatio: 1),
                     itemBuilder: (_, index) {
                       return GestureDetector(
-                        // onTap: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (_) =>
-                        //             ProductDetails(_products[index]))),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    ProductDetails(_products[index]))),
                         child: Card(
                           elevation: 3,
                           child: Column(
@@ -245,7 +259,20 @@ class _HomeState extends State<Home> {
                                     fontSize: 18.0),
                               ),
                               Text(
-                                  "${_products[index]["product-price"].toString()}TK"),
+                                "${_products[index]["product-price"].toString()}TK",
+                                style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                  //fontSize: 18.0
+                                ),
+                              ),
+                              Text(
+                                "${_products[index]["product-available"]}",
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                    fontSize: 10.0),
+                              ),
                             ],
                           ),
                         ),
@@ -290,11 +317,11 @@ class _HomeState extends State<Home> {
                         crossAxisCount: 1, childAspectRatio: 1),
                     itemBuilder: (_, index) {
                       return GestureDetector(
-                        // onTap: () => Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (_) =>
-                        //             ProductDetails(_products[index]))),
+                        onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) =>
+                                    ProductDetails(_products[index]))),
                         child: Card(
                           elevation: 3,
                           child: Column(
@@ -315,7 +342,20 @@ class _HomeState extends State<Home> {
                                     fontSize: 18.0),
                               ),
                               Text(
-                                  "${_products[index]["product-price"].toString()} TK"),
+                                "${_products[index]["product-price"].toString()} TK",
+                                style: TextStyle(
+                                  //fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                  //fontSize: 18.0
+                                ),
+                              ),
+                              Text(
+                                "${_products[index]["product-available"]}",
+                                style: TextStyle(
+                                    //fontWeight: FontWeight.bold,
+                                    color: Colors.green,
+                                    fontSize: 10.0),
+                              ),
                             ],
                           ),
                         ),

@@ -110,7 +110,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           child: Padding(
         padding: const EdgeInsets.only(left: 12, right: 12, top: 10),
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AspectRatio(
               aspectRatio: 2.5,
@@ -140,19 +140,19 @@ class _ProductDetailsState extends State<ProductDetails> {
             SizedBox(
               height: 10.h,
             ),
-            DotsIndicator(
-              dotsCount: widget._product['product-img'].length == 0
-                  ? 1
-                  : widget._product['product-img'].length,
-              position: _dotPosition.toDouble(),
-              decorator: DotsDecorator(
-                activeColor: Color(0xFFFF9800),
-                color: Color(0xFFFF9800).withOpacity(0.5),
-                spacing: EdgeInsets.all(2),
-                activeSize: Size(8, 8),
-                size: Size(6, 6),
-              ),
-            ),
+            // DotsIndicator(
+            //   dotsCount: widget._product['product-img'].length == 0
+            //       ? 1
+            //       : widget._product['product-img'].length,
+            //   position: _dotPosition.toDouble(),
+            //   decorator: DotsDecorator(
+            //     activeColor: Color(0xFFFF9800),
+            //     color: Color(0xFFFF9800).withOpacity(0.5),
+            //     spacing: EdgeInsets.all(2),
+            //     activeSize: Size(8, 8),
+            //     size: Size(6, 6),
+            //   ),
+            // ),
             SizedBox(
               height: 15.h,
             ),
@@ -163,12 +163,24 @@ class _ProductDetailsState extends State<ProductDetails> {
             SizedBox(
               height: 15.h,
             ),
-            Text(widget._product['product-description']),
+            Text(
+              widget._product['product-description'],
+            ),
+            SizedBox(
+              height: 15.h,
+            ),
+            Text(
+              widget._product['product-available'],
+              style: TextStyle(
+                  //fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontSize: 18.0),
+            ),
             SizedBox(
               height: 10,
             ),
             Text(
-              " ${widget._product['product-price'].toString()} TK",
+              "${widget._product['product-price'].toString()} TK",
               style: TextStyle(
                   fontWeight: FontWeight.bold, fontSize: 30, color: Colors.red),
             ),

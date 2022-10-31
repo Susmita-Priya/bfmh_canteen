@@ -14,6 +14,27 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "My Cart",
+          style: TextStyle(
+              fontSize: 35,
+              fontWeight: FontWeight.bold,
+              color: Colors.orange,
+              shadows: [
+                BoxShadow(
+                  blurRadius: 15,
+                  color: Colors.black,
+                  offset: Offset(3, 3),
+                )
+              ]),
+        ),
+        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        // iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
+      ),
       body: SafeArea(
         //     child: Column(
         //   children: [

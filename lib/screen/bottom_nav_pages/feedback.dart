@@ -27,6 +27,8 @@ class _FeedbackState extends State<FeedBack> {
         FirebaseFirestore.instance.collection("feedback");
     return _collectionRef
         .doc(currentUser!.email)
+        .collection("items")
+        .doc()
         .set({
           "item_name": _nameController.text,
           "feedback": _feedbackController.text,

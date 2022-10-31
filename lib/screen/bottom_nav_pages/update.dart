@@ -32,7 +32,7 @@ class _updateState extends State<update> {
                 color: Colors.orange,
                 shadows: [
                   BoxShadow(
-                    blurRadius: 5,
+                    blurRadius: 15,
                     color: Colors.black,
                     offset: Offset(3, 3),
                   )
