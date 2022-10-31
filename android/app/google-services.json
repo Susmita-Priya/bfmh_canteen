@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "854112803219",
+    "project_id": "bfmh-dbb3a",
+    "storage_bucket": "bfmh-dbb3a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:854112803219:android:91dfc8e9f3029c8b95f066",
+        "android_client_info": {
+          "package_name": "com.example.bfmh_canteen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "854112803219-vrt3mso56t53pfuu9ihdccieoblo8962.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5BLFo7gZDODf26szFwj2WBj9PB6oGSR8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "854112803219-vrt3mso56t53pfuu9ihdccieoblo8962.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
