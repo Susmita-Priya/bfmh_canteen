@@ -39,6 +39,7 @@ dependencies:
   dots_indicator: ^2.1.0
   carousel_slider: ^4.1.1
   get: ^4.6.5
+  file_picker: ^5.2.2
 
 dev_dependencies:
 

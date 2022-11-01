@@ -1,5 +1,6 @@
 import 'package:bfmh_canteen/screen/login_screen.dart';
 import 'package:bfmh_canteen/screen/registration_screen.dart';
+import 'package:bfmh_canteen/stuff/loginstaff.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,7 +66,7 @@ class _welcomescreenState extends State<welcomescreen> {
                 ),
               ),
               Expanded(
-                flex: 3,
+                flex: 4,
                 child: Column(
                   children: [
                     Container(
@@ -86,8 +87,8 @@ class _welcomescreenState extends State<welcomescreen> {
                     Container(
                       height: 80,
                       width: double.infinity,
-                      padding:
-                          const EdgeInsets.only(top: 8, left: 44, right: 44),
+                      padding: const EdgeInsets.only(
+                          top: 8, left: 44, right: 44, bottom: 10),
                       child: RaisedButton(
                         onPressed: () {
                           Navigator.push(
@@ -101,7 +102,34 @@ class _welcomescreenState extends State<welcomescreen> {
                         ),
                         color: Colors.orange,
                         child: Text(
-                          'Get Start',
+                          'Student',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 80,
+                      width: double.infinity,
+                      padding:
+                          const EdgeInsets.only(top: 8, left: 44, right: 44),
+                      child: RaisedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => loginscreenstaff()));
+                        },
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(35),
+                        ),
+                        color: Colors.orange,
+                        child: Text(
+                          'Staff',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
