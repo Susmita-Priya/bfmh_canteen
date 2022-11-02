@@ -9,49 +9,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class ProductDetails extends StatefulWidget {
+class productdetails extends StatefulWidget {
   var _product;
-  ProductDetails(this._product);
+  productdetails(this._product);
 
   @override
-  State<ProductDetails> createState() => _ProductDetailsState();
+  State<productdetails> createState() => _productdetailsState();
 }
 
-class _ProductDetailsState extends State<ProductDetails> {
-  var _dotPosition = 0;
-  Future addToCart() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var currentUser = _auth.currentUser;
-
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("users-cart-items");
-    return _collectionRef
-        .doc(currentUser!.email)
-        .collection("items")
-        .doc()
-        .set({
-      "name": widget._product["product-name"],
-      "price": widget._product["product-price"],
-      "images": widget._product["product-img"],
-    }).then((value) => Fluttertoast.showToast(msg: "Added to cart"));
-  }
-
-  Future addToFavourite() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var currentUser = _auth.currentUser;
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("users-favourite-items");
-    return _collectionRef
-        .doc(currentUser!.email)
-        .collection("items")
-        .doc()
-        .set({
-      "name": widget._product["product-name"],
-      "price": widget._product["product-price"],
-      "images": widget._product["product-img"],
-    }).then((value) => Fluttertoast.showToast(msg: "Added to favourite"));
-  }
-
+class _productdetailsState extends State<productdetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,41 +36,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                 )),
           ),
         ),
-        actions: [
-          StreamBuilder(
-            stream: FirebaseFirestore.instance
-                .collection("users-favourite-items")
-                .doc(FirebaseAuth.instance.currentUser!.email)
-                .collection("items")
-                .where("name", isEqualTo: widget._product['product-name'])
-                .snapshots(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.data == null) {
-                return Text("");
-              }
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: CircleAvatar(
-                  backgroundColor: Colors.red,
-                  child: IconButton(
-                    onPressed: () => snapshot.data.docs.length == 0
-                        ? addToFavourite()
-                        : print("Already Added"),
-                    icon: snapshot.data.docs.length == 0
-                        ? Icon(
-                            Icons.favorite_outline,
-                            color: Colors.white,
-                          )
-                        : Icon(
-                            Icons.favorite,
-                            color: Colors.white,
-                          ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
       ),
       body: SafeArea(
           child: Padding(
@@ -205,21 +136,21 @@ class _ProductDetailsState extends State<ProductDetails> {
             SizedBox(
               height: 15.h,
             ),
-            SizedBox(
-              width: 1.sw,
-              height: 56.h,
-              child: ElevatedButton(
-                onPressed: () => addToCart(),
-                child: Text(
-                  "Add to cart",
-                  style: TextStyle(color: Colors.white, fontSize: 18.sp),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Appcolours.Orange,
-                  elevation: 3,
-                ),
-              ),
-            ),
+            // SizedBox(
+            //   width: 1.sw,
+            //   height: 56.h,
+            //   child: ElevatedButton(
+            //     onPressed: () => addToCart(),
+            //     child: Text(
+            //       "Add to cart",
+            //       style: TextStyle(color: Colors.white, fontSize: 18.sp),
+            //     ),
+            //     style: ElevatedButton.styleFrom(
+            //       primary: Appcolours.Orange,
+            //       elevation: 3,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       )),

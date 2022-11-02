@@ -119,7 +119,7 @@ class _HomeState extends State<Home> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'Breakfast',
+                      'Food Items',
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.orange,
@@ -142,12 +142,12 @@ class _HomeState extends State<Home> {
               ),
 
               AspectRatio(
-                aspectRatio: 2,
+                aspectRatio: 1,
                 child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
+                    scrollDirection: Axis.vertical,
                     itemCount: _products.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1, childAspectRatio: 1),
+                        crossAxisCount: 2, childAspectRatio: 1),
                     itemBuilder: (_, index) {
                       return GestureDetector(
                         onTap: () => Navigator.push(
@@ -164,7 +164,7 @@ class _HomeState extends State<Home> {
                                   child: Container(
                                       color: Colors.yellow,
                                       child: Image.network(
-                                        _products[index]["product-img"][0],
+                                        _products[index]["product-img"],
                                         fit: BoxFit.cover,
                                       ))),
                               Text(
@@ -195,173 +195,173 @@ class _HomeState extends State<Home> {
                       );
                     }),
               ),
-              //2nd row
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Lunch',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
-                          fontSize: 18.0),
-                    ),
-                    // GestureDetector(
-                    //   // onTap: () {
-                    //   //   Navigator.of(context).push(MaterialPageRoute(
-                    //   //       builder: (context) => Search(
-                    //   //             search: productProvider.getHerbsProductList,
-                    //   //           )));
-                    //   // },
-                    //   child: Text(
-                    //     'all ',
-                    //     style: TextStyle(color: Colors.grey),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
+              // //2nd row
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         'Lunch',
+              //         style: TextStyle(
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.orange,
+              //             fontSize: 18.0),
+              //       ),
+              //       // GestureDetector(
+              //       //   // onTap: () {
+              //       //   //   Navigator.of(context).push(MaterialPageRoute(
+              //       //   //       builder: (context) => Search(
+              //       //   //             search: productProvider.getHerbsProductList,
+              //       //   //           )));
+              //       //   // },
+              //       //   child: Text(
+              //       //     'all ',
+              //       //     style: TextStyle(color: Colors.grey),
+              //       //   ),
+              //       // ),
+              //     ],
+              //   ),
+              // ),
 
-              AspectRatio(
-                aspectRatio: 2,
-                child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _products.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1, childAspectRatio: 1),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    ProductDetails(_products[index]))),
-                        child: Card(
-                          elevation: 3,
-                          child: Column(
-                            children: [
-                              AspectRatio(
-                                  aspectRatio: 1.5,
-                                  child: Container(
-                                      color: Colors.yellow,
-                                      child: Image.network(
-                                        _products[index]["product-img"][0],
-                                        fit: BoxFit.cover,
-                                      ))),
-                              Text(
-                                "${_products[index]["product-name"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 18.0),
-                              ),
-                              Text(
-                                "${_products[index]["product-price"].toString()}TK",
-                                style: TextStyle(
-                                  //fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                  //fontSize: 18.0
-                                ),
-                              ),
-                              Text(
-                                "${_products[index]["product-available"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                    fontSize: 10.0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Dinner',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
-                          fontSize: 18.0),
-                    ),
-                    // GestureDetector(
-                    //   // onTap: () {
-                    //   //   Navigator.of(context).push(MaterialPageRoute(
-                    //   //       builder: (context) => Search(
-                    //   //             search: productProvider.getHerbsProductList,
-                    //   //           )));
-                    //   // },
-                    //   child: Text(
-                    //     'all ',
-                    //     style: TextStyle(color: Colors.grey),
-                    //   ),
-                    // ),
-                  ],
-                ),
-              ),
+              // AspectRatio(
+              //   aspectRatio: 2,
+              //   child: GridView.builder(
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: _products.length,
+              //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 1, childAspectRatio: 1),
+              //       itemBuilder: (_, index) {
+              //         return GestureDetector(
+              //           onTap: () => Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (_) =>
+              //                       ProductDetails(_products[index]))),
+              //           child: Card(
+              //             elevation: 3,
+              //             child: Column(
+              //               children: [
+              //                 AspectRatio(
+              //                     aspectRatio: 1.5,
+              //                     child: Container(
+              //                         color: Colors.yellow,
+              //                         child: Image.network(
+              //                           _products[index]["product-img"][0],
+              //                           fit: BoxFit.cover,
+              //                         ))),
+              //                 Text(
+              //                   "${_products[index]["product-name"]}",
+              //                   style: TextStyle(
+              //                       //fontWeight: FontWeight.bold,
+              //                       color: Colors.black,
+              //                       fontSize: 18.0),
+              //                 ),
+              //                 Text(
+              //                   "${_products[index]["product-price"].toString()}TK",
+              //                   style: TextStyle(
+              //                     //fontWeight: FontWeight.bold,
+              //                     color: Colors.orange,
+              //                     //fontSize: 18.0
+              //                   ),
+              //                 ),
+              //                 Text(
+              //                   "${_products[index]["product-available"]}",
+              //                   style: TextStyle(
+              //                       //fontWeight: FontWeight.bold,
+              //                       color: Colors.green,
+              //                       fontSize: 10.0),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         );
+              //       }),
+              // ),
+              // Padding(
+              //   padding:
+              //       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         'Dinner',
+              //         style: TextStyle(
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.orange,
+              //             fontSize: 18.0),
+              //       ),
+              //       // GestureDetector(
+              //       //   // onTap: () {
+              //       //   //   Navigator.of(context).push(MaterialPageRoute(
+              //       //   //       builder: (context) => Search(
+              //       //   //             search: productProvider.getHerbsProductList,
+              //       //   //           )));
+              //       //   // },
+              //       //   child: Text(
+              //       //     'all ',
+              //       //     style: TextStyle(color: Colors.grey),
+              //       //   ),
+              //       // ),
+              //     ],
+              //   ),
+              // ),
 
-              AspectRatio(
-                aspectRatio: 2,
-                child: GridView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _products.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 1, childAspectRatio: 1),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    ProductDetails(_products[index]))),
-                        child: Card(
-                          elevation: 3,
-                          child: Column(
-                            children: [
-                              AspectRatio(
-                                  aspectRatio: 1.5,
-                                  child: Container(
-                                      color: Colors.yellow,
-                                      child: Image.network(
-                                        _products[index]["product-img"][0],
-                                        fit: BoxFit.cover,
-                                      ))),
-                              Text(
-                                "${_products[index]["product-name"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 18.0),
-                              ),
-                              Text(
-                                "${_products[index]["product-price"].toString()} TK",
-                                style: TextStyle(
-                                  //fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                  //fontSize: 18.0
-                                ),
-                              ),
-                              Text(
-                                "${_products[index]["product-available"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                    fontSize: 10.0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              ),
+              // AspectRatio(
+              //   aspectRatio: 2,
+              //   child: GridView.builder(
+              //       scrollDirection: Axis.horizontal,
+              //       itemCount: _products.length,
+              //       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              //           crossAxisCount: 1, childAspectRatio: 1),
+              //       itemBuilder: (_, index) {
+              //         return GestureDetector(
+              //           onTap: () => Navigator.push(
+              //               context,
+              //               MaterialPageRoute(
+              //                   builder: (_) =>
+              //                       ProductDetails(_products[index]))),
+              //           child: Card(
+              //             elevation: 3,
+              //             child: Column(
+              //               children: [
+              //                 AspectRatio(
+              //                     aspectRatio: 1.5,
+              //                     child: Container(
+              //                         color: Colors.yellow,
+              //                         child: Image.network(
+              //                           _products[index]["product-img"][0],
+              //                           fit: BoxFit.cover,
+              //                         ))),
+              //                 Text(
+              //                   "${_products[index]["product-name"]}",
+              //                   style: TextStyle(
+              //                       //fontWeight: FontWeight.bold,
+              //                       color: Colors.black,
+              //                       fontSize: 18.0),
+              //                 ),
+              //                 Text(
+              //                   "${_products[index]["product-price"].toString()} TK",
+              //                   style: TextStyle(
+              //                     //fontWeight: FontWeight.bold,
+              //                     color: Colors.orange,
+              //                     //fontSize: 18.0
+              //                   ),
+              //                 ),
+              //                 Text(
+              //                   "${_products[index]["product-available"]}",
+              //                   style: TextStyle(
+              //                       //fontWeight: FontWeight.bold,
+              //                       color: Colors.green,
+              //                       fontSize: 10.0),
+              //                 ),
+              //               ],
+              //             ),
+              //           ),
+              //         );
+              //       }),
+              // ),
             ],
           ),
         ),

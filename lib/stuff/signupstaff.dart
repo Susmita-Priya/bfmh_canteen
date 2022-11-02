@@ -22,17 +22,23 @@ class _signupstaffState extends State<signupstaff> {
 
   signUp() async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text);
-      var authCredential = userCredential.user;
-      print(authCredential!.uid);
-      if (authCredential.uid.isNotEmpty) {
-        Fluttertoast.showToast(msg: "Successfull");
-        Navigator.push(
-            context, CupertinoPageRoute(builder: (_) => loginscreenstaff()));
+      if (_passwordController.text == "111111") {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(
+                email: _emailController.text,
+                password: _passwordController.text);
+        var authCredential = userCredential.user;
+        print(authCredential!.uid);
+        if (authCredential.uid.isNotEmpty &&
+            _passwordController.text == "111111") {
+          Fluttertoast.showToast(msg: "Successfull");
+          Navigator.push(
+              context, CupertinoPageRoute(builder: (_) => loginscreenstaff()));
+        } else {
+          Fluttertoast.showToast(msg: "Something is wrong");
+        }
       } else {
-        Fluttertoast.showToast(msg: "Something is wrong");
+        Fluttertoast.showToast(msg: "Collect Token First");
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -185,7 +191,7 @@ class _signupstaffState extends State<signupstaff> {
                                 controller: _passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
-                                  hintText: "Token must be 6 character",
+                                  hintText: "Enter Token",
                                   hintStyle: TextStyle(
                                     fontSize: 14.sp,
                                     color: Colors.grey,

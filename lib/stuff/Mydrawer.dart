@@ -6,8 +6,11 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
 import 'package:bfmh_canteen/screen/feedbacesee.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
 import 'package:bfmh_canteen/stuff/about.dart';
+import 'package:bfmh_canteen/stuff/add_product.dart';
+import 'package:bfmh_canteen/stuff/editfood.dart';
 import 'package:bfmh_canteen/stuff/home.dart';
 import 'package:bfmh_canteen/stuff/loginstaff.dart';
+import 'package:bfmh_canteen/stuff/prac.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -83,14 +86,14 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black,
               ),
               title: GestureDetector(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => addfood(),
-                //     ),
-                //   );
-                // },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => addproduct(),
+                    ),
+                  );
+                },
                 child: Text(
                   "Add Food",
                   textScaleFactor: 1.2,
@@ -155,16 +158,40 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black,
               ),
               title: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const prac(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "Order List",
+                  textScaleFactor: 1.2,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            Divider(indent: 16, endIndent: 16),
+            ListTile(
+              leading: Icon(
+                Icons.notification_add,
+                color: Colors.black,
+              ),
+              title: GestureDetector(
                 // onTap: () {
                 //   Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
-                //       builder: (context) => const order(),
+                //       builder: (context) => const about(),
                 //     ),
                 //   );
                 // },
                 child: Text(
-                  "Order List",
+                  "Notification",
                   textScaleFactor: 1.2,
                   style: TextStyle(
                     color: Colors.black,
@@ -198,7 +225,7 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             Divider(indent: 16, endIndent: 16),
             SizedBox(
-              height: 220,
+              height: 100,
             ),
             ListTile(
               // leading: const Icon(

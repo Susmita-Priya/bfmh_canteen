@@ -32,7 +32,7 @@ Widget fetchData(String collectionName) {
                     elevation: 5,
                     child: ListTile(
                       leading: Image.network(
-                        _documentSnapshot['images'][0],
+                        _documentSnapshot['images'],
                         fit: BoxFit.cover,
                       ),
                       title: Text(

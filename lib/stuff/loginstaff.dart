@@ -29,7 +29,8 @@ class _loginscreenstaffState extends State<loginscreenstaff> {
               email: _emailController.text, password: _passwordController.text);
       var authCredential = userCredential.user;
       print(authCredential!.uid);
-      if (authCredential.uid.isNotEmpty) {
+      if (authCredential.uid.isNotEmpty &&
+          _passwordController.text == "111111") {
         Fluttertoast.showToast(msg: "Login Successful");
         Navigator.push(context, CupertinoPageRoute(builder: (_) => home()));
       } else {
@@ -184,7 +185,7 @@ class _loginscreenstaffState extends State<loginscreenstaff> {
                                 controller: _passwordController,
                                 obscureText: _obscureText,
                                 decoration: InputDecoration(
-                                  hintText: "Token must be 6 character",
+                                  hintText: "Enter Token",
                                   hintStyle: TextStyle(
                                     fontSize: 14.sp,
                                     color: Colors.grey,
