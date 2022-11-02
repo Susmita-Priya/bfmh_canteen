@@ -1,12 +1,18 @@
+import 'dart:io';
+
 import 'package:bfmh_canteen/screen/bottom_nav_pages/MDrawer.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
+import 'package:bfmh_canteen/stuff/Mydrawer.dart';
+import 'package:bfmh_canteen/stuff/home.dart';
 import 'package:bfmh_canteen/widgets/custombutton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class addproduct extends StatefulWidget {
   const addproduct({super.key});
@@ -16,27 +22,45 @@ class addproduct extends StatefulWidget {
 }
 
 class _addproductState extends State<addproduct> {
+  File? _image;
+  final imagePicker = ImagePicker();
+  String? url;
+  String? _fileName;
+
   TextEditingController _nameController = TextEditingController();
-  TextEditingController _feedbackController = TextEditingController();
+  TextEditingController _desController = TextEditingController();
+  TextEditingController _availController = TextEditingController();
+  TextEditingController _imgController = TextEditingController();
+  TextEditingController _priceController = TextEditingController();
 
-  sendUserDataToDB() async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    var currentUser = _auth.currentUser;
+  Future uploadimg() async {
+    Reference ref =
+        FirebaseStorage.instance.ref('product-images/').child('$_fileName');
+    await ref.putFile(_image!);
+    url = await ref.getDownloadURL();
+    print(url);
+  }
 
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("feedback");
-    return _collectionRef
-        .doc(currentUser!.email)
-        .collection("items")
+  Future sendUserDataToDB() async {
+    Reference ref =
+        FirebaseStorage.instance.ref('product-images/').child('$_fileName');
+    await ref.putFile(_image!);
+    url = await ref.getDownloadURL();
+    print(url);
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    await firebaseFirestore
+        .collection('products')
         .doc()
         .set({
-          "item_name": _nameController.text,
-          "feedback": _feedbackController.text,
+          "product-name": _nameController.text,
+          "product-description": _desController.text,
+          "product-available": _availController.text,
+          "product-price": _priceController.text,
+          'product-img': url,
         })
         .then((value) => {
-              Fluttertoast.showToast(msg: "Thanks For Your Feedback"),
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => MDrawer()))
+              Fluttertoast.showToast(msg: "Successfully added"),
+              Navigator.push(context, MaterialPageRoute(builder: (_) => home()))
             })
         .catchError((error) => print("something is wrong. $error"));
   }
@@ -80,7 +104,7 @@ class _addproductState extends State<addproduct> {
                   height: 20.h,
                 ),
                 Text(
-                  "Submit Your Feedback",
+                  "Add food item",
                   style: TextStyle(
                       fontSize: 25.sp,
                       color: Colors.orange,
@@ -89,14 +113,14 @@ class _addproductState extends State<addproduct> {
                 SizedBox(
                   height: 5.h,
                 ),
-                Text(
-                  "Your feedback help us for imporving",
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    //color: Color(0xFFBBBBBB),
-                    color: Colors.black,
-                  ),
-                ),
+                // Text(
+                //   "Your feedback help us for imporving",
+                //   style: TextStyle(
+                //     fontSize: 14.sp,
+                //     //color: Color(0xFFBBBBBB),
+                //     color: Colors.black,
+                //   ),
+                // ),
                 SizedBox(
                   height: 15.h,
                 ),
@@ -125,60 +149,160 @@ class _addproductState extends State<addproduct> {
                 SizedBox(
                   height: 10.h,
                 ),
-                // myTextField("enter your phone number", TextInputType.number,
-                //     _phoneController),
-                TextField(
-                  controller: _feedbackController,
-                  keyboardType: TextInputType.multiline,
-                  maxLines: null,
-                  minLines: 1,
+                TextFormField(
+                  controller: _desController,
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.feedback),
+                    // border: OutlineInputBorder(
+                    //     borderRadius: BorderRadius.circular(8)),
+                    icon: Icon(Icons.description),
                     iconColor: Colors.orange,
-                    labelText: 'Feedback',
+                    labelText: 'Description',
                     labelStyle: TextStyle(
                       fontSize: 20.sp,
                       color: Colors.orange,
                     ),
-                    hintText: "Give Feedback",
+                    hintText: "Enter the item description",
                     hintStyle: TextStyle(
                       fontSize: 14.sp,
                       color: Colors.grey,
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                TextFormField(
+                  controller: _availController,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(
+                    //     borderRadius: BorderRadius.circular(8)),
+                    icon: Icon(Icons.event_available_rounded),
+                    iconColor: Colors.orange,
+                    labelText: 'Availablity',
+                    labelStyle: TextStyle(
+                      fontSize: 20.sp,
+                      color: Colors.orange,
+                    ),
+                    hintText: "Enter the item availablity",
+                    hintStyle: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                TextFormField(
+                  controller: _priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(
+                    //     borderRadius: BorderRadius.circular(8)),
+                    icon: Icon(Icons.price_change),
+                    iconColor: Colors.orange,
+                    labelText: 'Item Price',
+                    labelStyle: TextStyle(
+                      fontSize: 20.sp,
+                      color: Colors.orange,
+                    ),
+                    hintText: "Enter the item price",
+                    hintStyle: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                // myTextField("enter your phone number", TextInputType.number,
+                // //     _phoneController),
+                // Container(
+                //   // flex: 3,
+                // child:
+                Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: _image == null
+                                  ? const Center(
+                                      child: Text("Select the item image"),
+                                    )
+                                  : Image.file(_image!))
+                        ],
+                      ),
+                    )),
+                // ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final pick = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    setState(() {
+                      if (pick != null) {
+                        _image = File(pick.path);
+                        _fileName = pick.name;
+                        if (_image != null) {
+                          uploadimg().whenComplete(() => SnackBar(
+                                content: Text("Picture is selected"),
+                                duration: Duration(milliseconds: 400),
+                              ));
+                        }
+                      } else {
+                        final snackBar = SnackBar(
+                          content: Text("No image selected"),
+                          duration: Duration(milliseconds: 400),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.grey),
+                  child: Text(
+                    "Add Image",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+                // TextField(
+                //   controller: _feedbackController,
+                //   keyboardType: TextInputType.multiline,
+                //   maxLines: null,
+                //   minLines: 1,
+                //   decoration: InputDecoration(
+                //     icon: Icon(Icons.feedback),
+                //     iconColor: Colors.orange,
+                //     labelText: 'Feedback',
+                //     labelStyle: TextStyle(
+                //       fontSize: 20.sp,
+                //       color: Colors.orange,
+                //     ),
+                //     hintText: "Give Feedback",
+                //     hintStyle: TextStyle(
+                //       fontSize: 14.sp,
+                //       color: Colors.grey,
+                //     ),
+                //   ),
+                // ),
 
                 SizedBox(
                   height: 50.h,
                 ),
 
                 // elevated button
-                customButton("Continue", () => sendUserDataToDB()),
-                // ListTile(
-                //   // leading: const Icon(
-                //   //   CupertinoIcons.archivebox_fill,
-                //   //   color: Colors.red,
-                //   // ),
-                //   title: Container(
-                //     color: Colors.black,
-                //     child: MaterialButton(
-                //       onPressed: () {
-                //         sendUserDataToDB();
-                //       },
-                //       padding: EdgeInsets.all(20),
-                //       child: const Text(
-                //         "Submit",
-
-                //         //textAlign: TextAlign.center,
-                //         style: TextStyle(
-                //             //backgroundColor: Colors.redAccent,
-                //             fontSize: 22,
-                //             color: Colors.white,
-                //             fontWeight: FontWeight.bold),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                customButton("Added", () => sendUserDataToDB()),
               ],
             ),
           ),
