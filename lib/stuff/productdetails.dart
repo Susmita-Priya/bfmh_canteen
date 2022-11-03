@@ -1,4 +1,5 @@
 import 'package:bfmh_canteen/constant/Appcolours.dart';
+import 'package:bfmh_canteen/stuff/updatefood.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class productdetails extends StatefulWidget {
   var _product;
@@ -140,9 +142,20 @@ class _productdetailsState extends State<productdetails> {
             //   width: 1.sw,
             //   height: 56.h,
             //   child: ElevatedButton(
-            //     onPressed: () => addToCart(),
+            // onPressed: () {
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (_) => updatefood(
+            //                 // name: widget._product['product-name'],
+            //                 // des: widget._product['product-description'],
+            //                 // avail: widget._product['product-available'],
+            //                 // price: widget._product['product-price'],
+
+            //               )));
+            // },
             //     child: Text(
-            //       "Add to cart",
+            //       "Update Details",
             //       style: TextStyle(color: Colors.white, fontSize: 18.sp),
             //     ),
             //     style: ElevatedButton.styleFrom(

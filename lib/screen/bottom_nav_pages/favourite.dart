@@ -1,4 +1,5 @@
 import 'package:bfmh_canteen/widgets/fetchProducts.dart';
+import 'package:bfmh_canteen/widgets/fetchfavt.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +35,7 @@ class _FavouriteState extends State<Favourite> {
         elevation: 0,
       ),
       body: SafeArea(
-        child: fetchData("users-favourite-items"),
+        child: fetchfavt("users-favourite-items"),
       ),
     );
   }

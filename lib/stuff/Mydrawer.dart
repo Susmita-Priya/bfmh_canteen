@@ -8,6 +8,7 @@ import 'package:bfmh_canteen/screen/login_screen.dart';
 import 'package:bfmh_canteen/stuff/about.dart';
 import 'package:bfmh_canteen/stuff/add_product.dart';
 import 'package:bfmh_canteen/stuff/editfood.dart';
+import 'package:bfmh_canteen/stuff/feedback.dart';
 import 'package:bfmh_canteen/stuff/home.dart';
 import 'package:bfmh_canteen/stuff/loginstaff.dart';
 import 'package:bfmh_canteen/stuff/prac.dart';
@@ -110,14 +111,14 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black,
               ),
               title: GestureDetector(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const editfood(),
-                //     ),
-                //   );
-                // },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const editfood(),
+                    ),
+                  );
+                },
                 child: Text(
                   "Edit Food ",
                   textScaleFactor: 1.2,
@@ -134,14 +135,14 @@ class _MyDrawerState extends State<MyDrawer> {
                 color: Colors.black,
               ),
               title: GestureDetector(
-                // onTap: () {
-                //   Navigator.push(
-                //     context,
-                //     MaterialPageRoute(
-                //       builder: (context) => const feedbacksee(),
-                //     ),
-                //   );
-                // },
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const feedback(),
+                    ),
+                  );
+                },
                 child: Text(
                   "FeedBack List",
                   textScaleFactor: 1.2,

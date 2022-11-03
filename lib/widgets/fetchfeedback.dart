@@ -50,7 +50,8 @@ Widget fetchfeedback(String collectionName) {
                       ),
                       trailing: GestureDetector(
                         child: CircleAvatar(
-                          child: Icon(Icons.remove_circle),
+                          child: Icon(Icons.delete,
+                              color: Color.fromARGB(255, 231, 5, 5)),
                         ),
                         onTap: () {
                           FirebaseFirestore.instance

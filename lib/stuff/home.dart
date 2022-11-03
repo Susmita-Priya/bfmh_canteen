@@ -58,7 +58,7 @@ class _homeState extends State<home> {
   @override
   void initState() {
     fetchCarouselImages();
-    fetchProducts();
+    //fetchProducts();
     super.initState();
   }
 
@@ -153,58 +153,82 @@ class _homeState extends State<home> {
               ),
 
               AspectRatio(
-                aspectRatio: 1,
-                child: GridView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: _products.length,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 1),
-                    itemBuilder: (_, index) {
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    productdetails(_products[index]))),
-                        child: Card(
-                          elevation: 3,
-                          child: Column(
-                            children: [
-                              AspectRatio(
-                                  aspectRatio: 1.5,
-                                  child: Container(
-                                      color: Colors.yellow,
-                                      child: Image.network(
-                                        _products[index]["product-img"],
-                                        fit: BoxFit.cover,
-                                      ))),
-                              Text(
-                                "${_products[index]["product-name"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 18.0),
-                              ),
-                              Text(
-                                "${_products[index]["product-price"].toString()} TK",
-                                style: TextStyle(
-                                  //fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                  //fontSize: 18.0
-                                ),
-                              ),
-                              Text(
-                                "${_products[index]["product-available"]}",
-                                style: TextStyle(
-                                    //fontWeight: FontWeight.bold,
-                                    color: Colors.green,
-                                    fontSize: 10.0),
-                              ),
-                            ],
-                          ),
-                        ),
+                aspectRatio: 0.8,
+                child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("products")
+                      .snapshots(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (snapshot.hasError) {
+                      return Center(
+                        child: Text("Something went wrong"),
                       );
-                    }),
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(
+                        child: Text("Loading"),
+                      );
+                    }
+
+                    return GridView.builder(
+                        scrollDirection: Axis.vertical,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 1),
+                        itemCount: snapshot.data == null
+                            ? 0
+                            : snapshot.data!.docs.length,
+                        itemBuilder: (_, index) {
+                          DocumentSnapshot _documentSnapshot =
+                              snapshot.data!.docs[index];
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) =>
+                                        productdetails(_documentSnapshot))),
+                            child: Card(
+                              elevation: 3,
+                              child: Column(
+                                children: [
+                                  AspectRatio(
+                                      aspectRatio: 1.5,
+                                      child: Container(
+                                          color: Colors.yellow,
+                                          child: Image.network(
+                                            _documentSnapshot["product-img"],
+                                            fit: BoxFit.cover,
+                                          ))),
+                                  Text(
+                                    "${_documentSnapshot["product-name"]}",
+                                    style: TextStyle(
+                                        //fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                        fontSize: 18.0),
+                                  ),
+                                  Text(
+                                    "${_documentSnapshot["product-price"].toString()} TK",
+                                    style: TextStyle(
+                                      //fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                      //fontSize: 18.0
+                                    ),
+                                  ),
+                                  Text(
+                                    "${_documentSnapshot["product-available"]}",
+                                    style: TextStyle(
+                                        //fontWeight: FontWeight.bold,
+                                        color: Colors.green,
+                                        fontSize: 10.0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                  },
+                ),
               ),
             ],
           ),

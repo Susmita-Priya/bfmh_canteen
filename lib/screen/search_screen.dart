@@ -36,46 +36,57 @@ class _SearchScreenState extends State<SearchScreen> {
               Expanded(
                 child: Container(
                   child: StreamBuilder(
-                      stream: FirebaseFirestore.instance
-                          .collection("products")
-                          .where("product-name",
-                              isGreaterThanOrEqualTo: inputText)
-                          .snapshots(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (snapshot.hasError) {
-                          return Center(
-                            child: Text("Something went wrong"),
-                          );
-                        }
+                    stream: FirebaseFirestore.instance
+                        .collection("products")
+                        .where("product-name",
+                            isGreaterThanOrEqualTo: inputText)
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text("Something went wrong"),
+                        );
+                      }
 
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(
-                            child: Text("Loading"),
-                          );
-                        }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: Text("Loading"),
+                        );
+                      }
 
-                        return ListView(
-                          children: snapshot.data!.docs
-                              .map((DocumentSnapshot document) {
-                            Map<String, dynamic> data =
-                                document.data() as Map<String, dynamic>;
+                      return ListView.builder(
+                          itemCount: snapshot.data == null
+                              ? 0
+                              : snapshot.data!.docs.length,
+                          itemBuilder: (_, index) {
+                            DocumentSnapshot _documentSnapshot =
+                                snapshot.data!.docs[index];
                             return GestureDetector(
                                 onTap: () => Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (_) => ProductDetails(data))),
+                                        builder: (_) =>
+                                            ProductDetails(_documentSnapshot))),
                                 child: Card(
                                   elevation: 5,
                                   child: ListTile(
-                                    title: Text(data['product-name']),
-                                    leading: Image.network(data['product-img']),
+                                    title:
+                                        Text(_documentSnapshot['product-name']),
+                                    leading: CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          _documentSnapshot['product-img']),
+                                    ),
+                                    // leading: Image.network(
+                                    //   _documentSnapshot['product-img'],
+                                    //   fit: BoxFit.contain
+
+                                    // ),
                                   ),
                                 ));
-                          }).toList(),
-                        );
-                      }),
+                          });
+                    },
+                  ),
                 ),
               ),
             ],

@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Widget fetchData(String collectionName) {
+Widget fetchfavt(String collectionName) {
   return Container(
     child: Stack(
       children: <Widget>[
