@@ -1,7 +1,6 @@
-import 'package:bfmh_canteen/stuff/seefeedback.dart';
+import 'package:bfmh_canteen/widgets/fetchfeedback.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,11 +12,8 @@ class feedback extends StatefulWidget {
 }
 
 class _feedbackState extends State<feedback> {
-  String? id;
-  List _products = [];
-  var _firestoreInstance = FirebaseFirestore.instance;
-
-  Widget fetchDataa(String collectionName) {
+  Widget fetchfeedback(String collectionName) {
+    String? email1 = FirebaseAuth.instance.currentUser!.email;
     return Container(
       child: Stack(
         children: <Widget>[
@@ -36,50 +32,45 @@ class _feedbackState extends State<feedback> {
                   itemCount:
                       snapshot.data == null ? 0 : snapshot.data!.docs.length,
                   itemBuilder: (_, index) {
-                    id = snapshot.data!.docs[index].data() as String?;
                     DocumentSnapshot _documentSnapshot =
                         snapshot.data!.docs[index];
 
-                    return GestureDetector(
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    seefeedback(_documentSnapshot))),
-                        child: Card(
-                          elevation: 5,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              backgroundImage: AssetImage("assets/profile.png"),
-                            ),
-                            //fit: BoxFit.cover,
+                    return Card(
+                      elevation: 5,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage("assets/profile.png"),
+                        ),
+                        //fit: BoxFit.cover,
 
-                            title: Text(
-                              " ${id} hello",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.orange,
-                                  fontSize: 19.h),
-                            ),
-                            // subtitle: Text(
-                            //   " ${_documentSnapshot['feedback']}",
-                            //   style: TextStyle(
-                            //       fontWeight: FontWeight.bold, color: Colors.black),
-                            // ),
-
-                            //   trailing: GestureDetector(
-                            //     child: CircleAvatar(
-                            //       child: Icon(Icons.remove_circle),
-                            //     ),
-                            //     onTap: () {
-                            //       FirebaseFirestore.instance
-                            //           .collection(collectionName)
-                            //           .doc(_documentSnapshot.id)
-                            //           .delete();
-                            //     },
-                            //   ),
-                          ),
-                        ));
+                        title: Text(
+                          " ${_documentSnapshot['item_name']}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.orange,
+                              fontSize: 19.h),
+                        ),
+                        subtitle: Text(
+                          " ${_documentSnapshot['feedback']}"
+                          "\n (${_documentSnapshot['email']})",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        // trailing: GestureDetector(
+                        //   child: CircleAvatar(
+                        //     child: Icon(Icons.delete,
+                        //         color: Color.fromARGB(255, 231, 5, 5)),
+                        //   ),
+                        //   onTap: () {
+                        //     FirebaseFirestore.instance
+                        //         .collection(collectionName)
+                        //         .doc(FirebaseAuth.instance.currentUser!.email)
+                        //         .collection("items")
+                        //         .doc(_documentSnapshot.id)
+                        //         .delete();
+                        //   },
+                        // ),
+                      ),
+                    );
                   });
             },
           ),
@@ -91,18 +82,36 @@ class _feedbackState extends State<feedback> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.orange,
-          title: const Text(
-            "Feedback List",
+      appBar: AppBar(
+        title: const Text(
+          "Feedbacks",
+          style: TextStyle(
+            //fontSize: 35,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
           ),
-          // automaticallyImplyLeading: false,
-          //centerTitle: true,
-          // iconTheme: const IconThemeData(color: Colors.black),
-          elevation: 0,
         ),
-        body: SafeArea(
-          child: fetchDataa("feedback"),
-        ));
+        backgroundColor: Colors.orange,
+        //automaticallyImplyLeading: false,
+        //centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black),
+        elevation: 0,
+      ),
+      body: SafeArea(
+        //     child: Column(
+        //   children: [
+        //     Text("hghhghj"),
+        //     SizedBox(
+        //       height: 165,
+        //     ),
+        //     Container(
+        //       child: fetchData("users-cart-items"),
+        //     )
+        //   ],
+        // )
+        child: fetchfeedback("feedback"),
+        //customButton("Continue", () => sendUserDataToDB()),
+      ),
+    );
   }
 }

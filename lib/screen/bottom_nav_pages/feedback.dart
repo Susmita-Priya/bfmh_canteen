@@ -22,16 +22,16 @@ class _FeedbackState extends State<FeedBack> {
   sendUserDataToDB() async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var currentUser = _auth.currentUser;
+    String? email = FirebaseAuth.instance.currentUser!.email;
 
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("feedback");
     return _collectionRef
-        .doc(currentUser!.email)
-        .collection("items")
         .doc()
         .set({
           "item_name": _nameController.text,
           "feedback": _feedbackController.text,
+          "email": email,
         })
         .then((value) => {
               Fluttertoast.showToast(msg: "Thanks For Your Feedback"),

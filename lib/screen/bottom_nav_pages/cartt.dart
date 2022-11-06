@@ -114,10 +114,10 @@
 //     child: Row(
 //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //       children: <Widget>[
-//         Text(
-//           "Total:",
-//           style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
-//         ),
+        // Text(
+        //   "Total:",
+        //   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w300),
+        // ),
 //         Text(
 //           "\₹${returnTotalAmount(foodItems)}",
 //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 28),

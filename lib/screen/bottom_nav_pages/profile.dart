@@ -58,8 +58,10 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           CircleAvatar(
-                            backgroundImage:
-                                const AssetImage('assets/profile.png'),
+                            backgroundImage: NetworkImage(
+                              data["img"],
+                              //fit: BoxFit.cover,
+                            ),
                             radius: _height / 9,
                           ),
                           SizedBox(
@@ -160,8 +162,7 @@ class _ProfileState extends State<Profile> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                const update(),
+                                            builder: (context) => update(data),
                                           ),
                                         );
                                       },

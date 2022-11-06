@@ -14,7 +14,7 @@ class _FeedBackSeeState extends State<FeedBackSee> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "My Feedback",
+          "My Feedbacks",
           style: TextStyle(
             //fontSize: 35,
             fontWeight: FontWeight.bold,

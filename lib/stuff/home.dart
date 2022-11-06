@@ -189,7 +189,7 @@ class _homeState extends State<home> {
                                     builder: (_) =>
                                         productdetails(_documentSnapshot))),
                             child: Card(
-                              elevation: 3,
+                              // elevation: 3,
                               child: Column(
                                 children: [
                                   AspectRatio(

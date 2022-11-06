@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bfmh_canteen/constant/Appcolours.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_controller.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
@@ -5,10 +7,12 @@ import 'package:bfmh_canteen/widgets/custombutton.dart';
 import 'package:bfmh_canteen/widgets/myTextField.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 
 class userform extends StatefulWidget {
   //const userform({super.key});
@@ -18,13 +22,27 @@ class userform extends StatefulWidget {
 }
 
 class _userformState extends State<userform> {
+  File? _image;
+  final imagePicker = ImagePicker();
+  String? url;
+  String? _fileName;
+
   TextEditingController _nameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _dobController = TextEditingController();
   TextEditingController _genderController = TextEditingController();
   TextEditingController _ageController = TextEditingController();
+  TextEditingController _imgController = TextEditingController();
   List<String> gender = ["Male", "Female", "Other"];
+
+  Future uploadimg() async {
+    Reference ref =
+        FirebaseStorage.instance.ref('profile/').child('$_fileName');
+    await ref.putFile(_image!);
+    url = await ref.getDownloadURL();
+    print(url);
+  }
 
   Future<void> _selectDateFromPicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -40,6 +58,11 @@ class _userformState extends State<userform> {
   }
 
   sendUserDataToDB() async {
+    Reference ref =
+        FirebaseStorage.instance.ref('profile/').child('$_fileName');
+    await ref.putFile(_image!);
+    url = await ref.getDownloadURL();
+    print(url);
     final FirebaseAuth _auth = FirebaseAuth.instance;
     var currentUser = _auth.currentUser;
 
@@ -54,6 +77,7 @@ class _userformState extends State<userform> {
           "dob": _dobController.text,
           "gender": _genderController.text,
           "age": _ageController.text,
+          "img": url,
         })
         .then((value) => {
               Fluttertoast.showToast(msg: "Successful"),
@@ -266,6 +290,59 @@ class _userformState extends State<userform> {
                 SizedBox(
                   height: 10.h,
                 ),
+                Container(
+                    width: 250,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                              child: _image == null
+                                  ? const Center(
+                                      child: Text("Select the item image"),
+                                    )
+                                  : Image.file(_image!))
+                        ],
+                      ),
+                    )),
+                // ),
+                ElevatedButton(
+                  onPressed: () async {
+                    final pick = await imagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    setState(() {
+                      if (pick != null) {
+                        _image = File(pick.path);
+                        _fileName = pick.name;
+                        if (_image != null) {
+                          uploadimg().whenComplete(() => SnackBar(
+                                content: Text("Picture is selected"),
+                                duration: Duration(milliseconds: 400),
+                              ));
+                        }
+                      } else {
+                        final snackBar = SnackBar(
+                          content: Text("No image selected"),
+                          duration: Duration(milliseconds: 400),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(primary: Colors.grey),
+                  child: Text(
+                    "Add Image",
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
                 // myTextField(
                 //     "enter your age", TextInputType.number, _ageController),
 

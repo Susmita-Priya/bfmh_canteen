@@ -5,6 +5,7 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
 import 'package:bfmh_canteen/screen/feedbacesee.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
+import 'package:bfmh_canteen/screen/welcome_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,7 +35,7 @@ class _MDrawerState extends State<MDrawer> {
                   color: Colors.orange,
                 ),
                 margin: EdgeInsets.all(0),
-                accountName: Text("Hello  " + data['name'],
+                accountName: Text(data['name'],
                     style: const TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
@@ -45,7 +46,9 @@ class _MDrawerState extends State<MDrawer> {
                       fontWeight: FontWeight.w400,
                     )),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: AssetImage("assets/Logo.jpeg"),
+                  backgroundImage: NetworkImage(
+                    data["img"],
+                  ),
                   radius: MediaQuery.of(context).size.height / 1,
                 ),
               ),
@@ -232,6 +235,6 @@ class _MDrawerState extends State<MDrawer> {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const loginscreen()));
+        MaterialPageRoute(builder: (context) => const welcomescreen()));
   }
 }

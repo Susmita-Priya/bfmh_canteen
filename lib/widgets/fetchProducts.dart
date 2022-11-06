@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget fetchData(String collectionName) {
+  num? total = 0;
   return Container(
     child: Stack(
       children: <Widget>[
@@ -28,6 +29,11 @@ Widget fetchData(String collectionName) {
                   DocumentSnapshot _documentSnapshot =
                       snapshot.data!.docs[index];
 
+                  //                     for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                  //                   totalAmount = totalAmount + foodItems[i].price;
+                  // }
+
+                  total = total! + _documentSnapshot['price'];
                   return Card(
                     elevation: 5,
                     child: ListTile(
@@ -36,7 +42,8 @@ Widget fetchData(String collectionName) {
                             NetworkImage(_documentSnapshot['images']),
                       ),
                       title: Text(
-                        " ${_documentSnapshot['name']}",
+                        // " ${_documentSnapshot['name']}",
+                        "${total.toString()}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,

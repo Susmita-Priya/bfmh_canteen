@@ -145,7 +145,7 @@ class _aboutState extends State<about> with TickerProviderStateMixin {
             icon: SizedBox(),
           ),
           BottomNavigationBarItem(
-            label: " ",
+            label: " © Susmita Saha(Priya) ",
             icon: SizedBox(),
           )
         ],

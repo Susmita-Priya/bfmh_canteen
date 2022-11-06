@@ -5,6 +5,7 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
 import 'package:bfmh_canteen/screen/feedbacesee.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
+import 'package:bfmh_canteen/screen/welcome_screen.dart';
 import 'package:bfmh_canteen/stuff/about.dart';
 import 'package:bfmh_canteen/stuff/add_product.dart';
 import 'package:bfmh_canteen/stuff/editfood.dart';
@@ -287,6 +288,6 @@ class _MyDrawerState extends State<MyDrawer> {
   Future<void> logout(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const loginscreenstaff()));
+        MaterialPageRoute(builder: (context) => const welcomescreen()));
   }
 }

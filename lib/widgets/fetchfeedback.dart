@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget fetchfeedback(String collectionName) {
+  String? email1 = FirebaseAuth.instance.currentUser!.email;
   return Container(
     child: Stack(
       children: <Widget>[
         StreamBuilder(
           stream: FirebaseFirestore.instance
               .collection(collectionName)
-              .doc(FirebaseAuth.instance.currentUser!.email)
-              .collection("items")
+              .where("email", isEqualTo: email1)
               .snapshots(),
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -48,20 +48,20 @@ Widget fetchfeedback(String collectionName) {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black),
                       ),
-                      trailing: GestureDetector(
-                        child: CircleAvatar(
-                          child: Icon(Icons.delete,
-                              color: Color.fromARGB(255, 231, 5, 5)),
-                        ),
-                        onTap: () {
-                          FirebaseFirestore.instance
-                              .collection(collectionName)
-                              .doc(FirebaseAuth.instance.currentUser!.email)
-                              .collection("items")
-                              .doc(_documentSnapshot.id)
-                              .delete();
-                        },
-                      ),
+                      // trailing: GestureDetector(
+                      //   child: CircleAvatar(
+                      //     child: Icon(Icons.delete,
+                      //         color: Color.fromARGB(255, 231, 5, 5)),
+                      //   ),
+                      //   onTap: () {
+                      //     FirebaseFirestore.instance
+                      //         .collection(collectionName)
+                      //         .doc(FirebaseAuth.instance.currentUser!.email)
+                      //         .collection("items")
+                      //         .doc(_documentSnapshot.id)
+                      //         .delete();
+                      //   },
+                      // ),
                     ),
                   );
                 });

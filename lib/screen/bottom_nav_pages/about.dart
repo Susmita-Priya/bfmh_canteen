@@ -116,6 +116,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
                       color: Color(0xFFFD8803)),
                   children: <TextSpan>[
                     TextSpan(
+                        children: [],
                         text:
                             '\n  \n Our hall Bangmata Fazilatunessa Mujib Hall of Jagannath University ,there have canteen system food buying.When we go and purches food there are too many crowd and it wastes our important time.It creates awkward situation.\n \n This BFMH Apss releases us from this problem.We can save our time. We can purches food in this apps.And we can take our food when it prepared and get notifications.And donot need to stand in queue for taking food.',
                         style: TextStyle(
@@ -144,7 +145,7 @@ class _AboutUsState extends State<AboutUs> with TickerProviderStateMixin {
             icon: SizedBox(),
           ),
           BottomNavigationBarItem(
-            label: " ",
+            label: " © Susmita Saha(Priya)",
             icon: SizedBox(),
           )
         ],
