@@ -67,7 +67,7 @@ class _FeedbackState extends State<FeedBack> {
                       //   ], begin: Alignment.topCenter, end: Alignment.center)),
                       // ),
                       CircleAvatar(
-                        backgroundImage: const AssetImage('assets/Logo.jpeg'),
+                        backgroundImage: const AssetImage('assets/feed.png'),
                         radius: MediaQuery.of(context).size.height / 10,
                       ),
                       SizedBox(

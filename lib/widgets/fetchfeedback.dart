@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Widget fetchfeedback(String collectionName) {
   String? email1 = FirebaseAuth.instance.currentUser!.email;
@@ -48,20 +49,22 @@ Widget fetchfeedback(String collectionName) {
                         style: TextStyle(
                             fontWeight: FontWeight.bold, color: Colors.black),
                       ),
-                      // trailing: GestureDetector(
-                      //   child: CircleAvatar(
-                      //     child: Icon(Icons.delete,
-                      //         color: Color.fromARGB(255, 231, 5, 5)),
-                      //   ),
-                      //   onTap: () {
-                      //     FirebaseFirestore.instance
-                      //         .collection(collectionName)
-                      //         .doc(FirebaseAuth.instance.currentUser!.email)
-                      //         .collection("items")
-                      //         .doc(_documentSnapshot.id)
-                      //         .delete();
-                      //   },
-                      // ),
+                      trailing: GestureDetector(
+                        child: CircleAvatar(
+                          child: Icon(Icons.delete,
+                              color: Color.fromARGB(255, 231, 5, 5)),
+                        ),
+                        onTap: () {
+                          FirebaseFirestore.instance
+                              .collection(collectionName)
+                              .doc(_documentSnapshot.id)
+                              .delete()
+                              .then((value) => {
+                                    Fluttertoast.showToast(
+                                        msg: "Successfully Deleted"),
+                                  });
+                        },
+                      ),
                     ),
                   );
                 });

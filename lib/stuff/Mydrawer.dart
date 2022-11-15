@@ -1,4 +1,5 @@
 import 'package:bfmh_canteen/screen/bottom_nav_controller.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/QRcode.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/about.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/feedback.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
@@ -12,6 +13,7 @@ import 'package:bfmh_canteen/stuff/editfood.dart';
 import 'package:bfmh_canteen/stuff/feedback.dart';
 import 'package:bfmh_canteen/stuff/home.dart';
 import 'package:bfmh_canteen/stuff/loginstaff.dart';
+import 'package:bfmh_canteen/stuff/oderlist.dart';
 import 'package:bfmh_canteen/stuff/prac.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,7 +166,7 @@ class _MyDrawerState extends State<MyDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const prac(),
+                      builder: (context) => const order(),
                     ),
                   );
                 },
@@ -188,7 +190,7 @@ class _MyDrawerState extends State<MyDrawer> {
                 //   Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
-                //       builder: (context) => const about(),
+                //       builder: (context) => ,
                 //     ),
                 //   );
                 // },

@@ -1,11 +1,16 @@
+import 'package:bfmh_canteen/screen/bottom_nav_controller.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/cart.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/payment.dart';
+import 'package:bfmh_canteen/widgets/custombutton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-Widget fetchData(String collectionName) {
-  num? total = 0;
+Widget fetchData(String collectionName, num? total) {
+  // num? total = 0;
   return Container(
     child: Stack(
       children: <Widget>[
@@ -33,7 +38,7 @@ Widget fetchData(String collectionName) {
                   //                   totalAmount = totalAmount + foodItems[i].price;
                   // }
 
-                  total = total! + _documentSnapshot['price'];
+                  //total = total! + _documentSnapshot['price'];
                   return Card(
                     elevation: 5,
                     child: ListTile(
@@ -42,8 +47,8 @@ Widget fetchData(String collectionName) {
                             NetworkImage(_documentSnapshot['images']),
                       ),
                       title: Text(
-                        // " ${_documentSnapshot['name']}",
-                        "${total.toString()}",
+                        " ${_documentSnapshot['name']}",
+                        // "${total.toString()}",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.black,
@@ -65,7 +70,19 @@ Widget fetchData(String collectionName) {
                               .doc(FirebaseAuth.instance.currentUser!.email)
                               .collection("items")
                               .doc(_documentSnapshot.id)
-                              .delete();
+                              .delete()
+                              .then((value) => {
+                                    Fluttertoast.showToast(
+                                        msg: "Successfully Deleted"),
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (_) =>
+                                                bottomnavcontroller())),
+                                    //total = 0,
+                                    total = total! - _documentSnapshot['price'],
+                                    print(total),
+                                  });
                         },
                       ),
                     ),

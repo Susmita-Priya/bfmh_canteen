@@ -1,5 +1,6 @@
 import 'package:bfmh_canteen/constant/Appcolours.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/MDrawer.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/QRcode.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/cart.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/favourite.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
@@ -18,7 +19,7 @@ class bottomnavcontroller extends StatefulWidget {
 }
 
 class _bottomnavcontrollerState extends State<bottomnavcontroller> {
-  final _pages = [Home(), Favourite(), Cart(), notificationn()];
+  final _pages = [Home(), Favourite(), Cart(), qr()];
   var _currentIndex = 0;
 
   @override
@@ -95,8 +96,8 @@ class _bottomnavcontrollerState extends State<bottomnavcontroller> {
             label: "Cart",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: "notification",
+            icon: Icon(Icons.qr_code),
+            label: "QR Code",
           ),
         ],
         onTap: (index) {
