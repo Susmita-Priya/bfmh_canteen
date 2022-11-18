@@ -6,6 +6,7 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/favourite.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/notification.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/tracelist.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/update.dart';
 import 'package:bfmh_canteen/screen/search_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +20,7 @@ class bottomnavcontroller extends StatefulWidget {
 }
 
 class _bottomnavcontrollerState extends State<bottomnavcontroller> {
-  final _pages = [Home(), Favourite(), Cart(), qr()];
+  final _pages = [Home(), Favourite(), Cart(), tracelist()];
   var _currentIndex = 0;
 
   @override
@@ -96,8 +97,8 @@ class _bottomnavcontrollerState extends State<bottomnavcontroller> {
             label: "Cart",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code),
-            label: "QR Code",
+            icon: Icon(Icons.fastfood),
+            label: "Trace food",
           ),
         ],
         onTap: (index) {

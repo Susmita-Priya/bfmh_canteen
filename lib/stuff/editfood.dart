@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class editfood extends StatefulWidget {
   const editfood({super.key});
@@ -93,7 +94,12 @@ class _editfoodState extends State<editfood> {
                                       FirebaseFirestore.instance
                                           .collection(collectionName)
                                           .doc(_documentSnapshot.id)
-                                          .delete();
+                                          .delete()
+                                          .then((value) => {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "Successfully Deleted"),
+                                              });
                                     }),
                                     icon: Icon(Icons.delete,
                                         color: Color.fromARGB(255, 231, 5, 5)))

@@ -1,3 +1,5 @@
+import 'package:bfmh_canteen/screen/bottom_nav_pages/trace_food.dart';
+import 'package:bfmh_canteen/stuff/trace.dart';
 import 'package:bfmh_canteen/widgets/fetchfeedback.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,40 +41,67 @@ class _orderState extends State<order> {
                     return Card(
                       elevation: 5,
                       child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundImage: AssetImage("assets/profile.png"),
-                        ),
-                        //fit: BoxFit.cover,
+                          leading: CircleAvatar(
+                            backgroundImage: AssetImage("assets/profile.png"),
+                          ),
+                          //fit: BoxFit.cover,
 
-                        title: Text(
-                          "${_documentSnapshot['email']}",
-                          style: TextStyle(
+                          title: Text(
+                            "${_documentSnapshot['email']}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                                fontSize: 16.h),
+                          ),
+                          subtitle: Text(
+                            "(" +
+                                _documentSnapshot['item_name'] +
+                                ")" +
+                                "\n\nTotal = ${_documentSnapshot['total'].toString()}",
+                            style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.orange,
-                              fontSize: 19.h),
-                        ),
-                        subtitle: Text(
-                          _documentSnapshot['item_name'] +
-                              "\n\nTotal = ${_documentSnapshot['total'].toString()}",
-                          style: TextStyle(color: Colors.black, fontSize: 17),
-                        ),
-                        trailing: GestureDetector(
-                          child: CircleAvatar(
-                            child: Icon(Icons.delete,
-                                color: Color.fromARGB(255, 231, 5, 5)),
+                            ),
                           ),
-                          onTap: () {
-                            FirebaseFirestore.instance
-                                .collection(collectionName)
-                                .doc(_documentSnapshot.id)
-                                .delete()
-                                .then((value) => {
-                                      Fluttertoast.showToast(
-                                          msg: "Successfully Deleted"),
-                                    });
-                          },
-                        ),
-                      ),
+                          trailing: SizedBox(
+                            width: 100,
+                            child: Row(
+                              children: [
+                                IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (_) => trace(
+                                                  _documentSnapshot
+                                                  // name: widget._product['product-name'],
+                                                  // des: widget._product['product-description'],
+                                                  // avail: widget._product['product-available'],
+                                                  // price: widget._product['product-price'],
+
+                                                  )));
+                                    },
+                                    icon: const Icon(
+                                      Icons.notification_add,
+                                      color: Color.fromARGB(137, 0, 102, 9),
+                                    )),
+                                IconButton(
+                                    onPressed: (() {
+                                      FirebaseFirestore.instance
+                                          .collection(collectionName)
+                                          .doc(_documentSnapshot.id)
+                                          .delete()
+                                          .then((value) => {
+                                                Fluttertoast.showToast(
+                                                    msg:
+                                                        "Successfully Deleted"),
+                                              });
+                                    }),
+                                    icon: Icon(Icons.delete,
+                                        color: Color.fromARGB(255, 231, 5, 5)))
+                              ],
+                            ),
+                          )),
                     );
                   });
             },

@@ -3,6 +3,8 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/about.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/feedback.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/trace_food.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/tracelist.dart';
 import 'package:bfmh_canteen/screen/feedbacesee.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
 import 'package:bfmh_canteen/screen/welcome_screen.dart';

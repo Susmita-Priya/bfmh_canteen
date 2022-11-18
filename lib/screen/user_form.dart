@@ -250,7 +250,7 @@ class _userformState extends State<userform> {
                       fontSize: 20.sp,
                       color: Appcolours.Orange,
                     ),
-                    prefixIcon: DropdownButton<String>(
+                    suffixIcon: DropdownButton<String>(
                       items: gender.map((String value) {
                         return DropdownMenuItem<String>(
                           value: value,

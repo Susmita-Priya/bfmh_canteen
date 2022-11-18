@@ -129,7 +129,7 @@ class _welcomescreenState extends State<welcomescreen> {
                         ),
                         color: Colors.orange,
                         child: Text(
-                          'Staff',
+                          'Canteen',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
