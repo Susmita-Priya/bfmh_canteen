@@ -294,6 +294,7 @@ class _traceState extends State<trace> {
                 // myTextField(
                 //     "enter your name", TextInputType.text, _nameController),
                 TextFormField(
+                  readOnly: true,
                   controller: _emailController = TextEditingController(
                       text: widget.documentSnapshot["email"]),
                   keyboardType: TextInputType.text,
@@ -318,6 +319,7 @@ class _traceState extends State<trace> {
                   height: 10.h,
                 ),
                 TextFormField(
+                  readOnly: true,
                   controller: _itemController = TextEditingController(
                       text: widget.documentSnapshot["item_name"]),
                   keyboardType: TextInputType.text,
@@ -342,6 +344,7 @@ class _traceState extends State<trace> {
                   height: 10.h,
                 ),
                 TextFormField(
+                  readOnly: true,
                   controller: _totalController = TextEditingController(
                       text: widget.documentSnapshot["total"].toString()),
                   keyboardType: TextInputType.text,

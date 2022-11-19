@@ -154,7 +154,7 @@ class _traceState extends State<tracef> {
                               infoChild(
                                   _width,
                                   Icons.restaurant,
-                                  "Your food is being : " +
+                                  "Status : " +
                                       widget.documentSnapshot['status']),
                               const SizedBox(
                                 height: 12,

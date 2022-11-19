@@ -68,7 +68,7 @@ class _editfoodState extends State<editfood> {
                                 color: Colors.orange),
                           ),
                           trailing: SizedBox(
-                            width: 150,
+                            width: 100,
                             child: Row(
                               children: [
                                 IconButton(
