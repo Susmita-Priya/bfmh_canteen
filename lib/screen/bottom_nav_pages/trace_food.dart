@@ -113,9 +113,8 @@ class _traceState extends State<tracef> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                        top: _height / 2.3,
-                        left: _width / 20,
-                        right: _width / 20),
+                      top: _height / 2.3,
+                    ),
                     child: Column(
                       children: <Widget>[
                         Container(

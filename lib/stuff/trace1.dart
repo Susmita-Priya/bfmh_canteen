@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:bfmh_canteen/stuff/oderlist.dart';
+import 'package:bfmh_canteen/stuff/tracesee.dart';
 import 'package:http/http.dart' as http;
 import 'package:bfmh_canteen/constant/Appcolours.dart';
 import 'package:bfmh_canteen/stuff/editfood.dart';
@@ -20,23 +21,27 @@ import 'package:image_picker/image_picker.dart';
 import 'package:bfmh_canteen/stuff/home.dart';
 import 'package:bfmh_canteen/widgets/custombutton.dart';
 
-class trace extends StatefulWidget {
+class trace1 extends StatefulWidget {
   final DocumentSnapshot documentSnapshot;
-  trace(
+  trace1(
     this.documentSnapshot,
   );
   @override
-  State<trace> createState() => _traceState();
+  State<trace1> createState() => _trace1State();
 }
 
-class _traceState extends State<trace> {
+class _trace1State extends State<trace1> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _itemController = TextEditingController();
   TextEditingController _totalController = TextEditingController();
   TextEditingController _statusController = TextEditingController();
   List<String> status = [
     "Confirm",
+    "Cooking food",
+    "Processing food",
+    "Packaging Done",
     "Cancelled",
+    "HandOver"
   ];
   TextEditingController username = TextEditingController();
   TextEditingController title = TextEditingController();
@@ -191,8 +196,8 @@ class _traceState extends State<trace> {
     CollectionReference _collectionRef =
         FirebaseFirestore.instance.collection("trace");
     return _collectionRef
-        .doc()
-        .set({
+        .doc(widget.documentSnapshot.id)
+        .update({
           "email": _emailController.text,
           "item": _itemController.text,
           "total": _totalController.text,
@@ -200,24 +205,26 @@ class _traceState extends State<trace> {
         })
         .then((value) => {
               Fluttertoast.showToast(msg: "Successful"),
-              deData(),
-            })
-        .catchError((error) => print("something is wrong. $error"));
-  }
-
-  deData() async {
-    String email = widget.documentSnapshot["email"];
-    CollectionReference _collectionRef =
-        FirebaseFirestore.instance.collection("order");
-    return _collectionRef
-        .doc(widget.documentSnapshot.id)
-        .delete()
-        .then((value) => {
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => order()))
+                  context, MaterialPageRoute(builder: (_) => tracesee()))
             })
         .catchError((error) => print("something is wrong. $error"));
   }
+  // deData() async {
+  //   String email = widget.documentSnapshot["email"];
+  //   CollectionReference _collectionRef =
+  //       FirebaseFirestore.instance.collection("order");
+  //   return _collectionRef
+  //       .doc(widget.documentSnapshot.id)
+  //     .delete()
+  //       .then((value) => {
+
+  //              Navigator.push(
+  //                 context, MaterialPageRoute(builder: (_) => order()))
+  //           })
+  //       .catchError((error) => print("something is wrong. $error"));
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -319,7 +326,7 @@ class _traceState extends State<trace> {
                 ),
                 TextFormField(
                   controller: _itemController = TextEditingController(
-                      text: widget.documentSnapshot["item_name"]),
+                      text: widget.documentSnapshot["item"]),
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     // border: OutlineInputBorder(
@@ -463,7 +470,7 @@ class _traceState extends State<trace> {
                   height: 30.h,
                 ),
                 // elevated button
-                customButton("Added", () => addData()),
+                customButton("Update", () => addData()),
               ],
             ),
           ),

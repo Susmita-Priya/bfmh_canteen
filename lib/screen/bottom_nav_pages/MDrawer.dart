@@ -5,6 +5,7 @@ import 'package:bfmh_canteen/screen/bottom_nav_pages/home.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/profile.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/trace_food.dart';
 import 'package:bfmh_canteen/screen/bottom_nav_pages/tracelist.dart';
+import 'package:bfmh_canteen/screen/bottom_nav_pages/traces.dart';
 import 'package:bfmh_canteen/screen/feedbacesee.dart';
 import 'package:bfmh_canteen/screen/login_screen.dart';
 import 'package:bfmh_canteen/screen/welcome_screen.dart';
@@ -95,6 +96,30 @@ class _MDrawerState extends State<MDrawer> {
                 },
                 child: Text(
                   "Profile",
+                  textScaleFactor: 1.2,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+            Divider(indent: 15, endIndent: 15),
+            ListTile(
+              leading: Icon(
+                CupertinoIcons.cart_fill,
+                color: Colors.black,
+              ),
+              title: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const traces(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "My Orders",
                   textScaleFactor: 1.2,
                   style: TextStyle(
                     color: Colors.black,

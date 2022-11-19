@@ -1,340 +1,164 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class notification extends StatefulWidget {
-  const notification({super.key});
+// void main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   await Firebase.initializeApp(
+//     options: DefaultFirebaseOptions.currentPlatform,
+//   );
+//   runApp(const MyApp());
+// }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({Key? key}) : super(key: key);
+
+//   // This widget is the root of your application.
+//   // @override
+//   // Widget build(BuildContext context) {
+//   //   return MaterialApp(
+//   //     title: 'Flutter Demo',
+//   //     theme: ThemeData(
+//   //       // This is the theme of your application.
+//   //       //
+//   //       // Try running your application with "flutter run". You'll see the
+//   //       // application has a blue toolbar. Then, without quitting the app, try
+//   //       // changing the primarySwatch below to Colors.green and then invoke
+//   //       // "hot reload" (press "r" in the console where you ran "flutter run",
+//   //       // or simply save your changes to "hot reload" in a Flutter IDE).
+//   //       // Notice that the counter didn't reset back to zero; the application
+//   //       // is not restarted.
+//   //       primarySwatch: Colors.blue,
+//   //     ),
+//   //     home:const MyHomePage(title: 'Flutter Demo Home Page'),
+//   //   );
+//   // }
+// }
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  // This widget is the home page of your application. It is stateful, meaning
+  // that it has a State object (defined below) that contains fields that affect
+  // how it looks.
+
+  // This class is the configuration for the state. It holds the values (in this
+  // case the title) provided by the parent (in this case the App widget) and
+  // used by the build method of the State. Fields in a Widget subclass are
+  // always marked "final".
 
   @override
-  State<notification> createState() => _notificationState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _notificationState extends State<notification> {
-  TextEditingController username = TextEditingController();
-  TextEditingController title = TextEditingController();
-  TextEditingController body = TextEditingController();
-  late AndroidNotificationChannel channel;
-  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
-  String? mtoken = " ";
-
-  @override
-  void initState() {
-    super.initState();
-
-    requestPermission();
-
-    loadFCM();
-
-    listenFCM();
-
-    getToken();
-
-    FirebaseMessaging.instance.subscribeToTopic("Animal");
-  }
-
-  void getTokenFromFirestore() async {}
-
-  void saveToken(String token) async {
-    await FirebaseFirestore.instance
-        .collection("UserTokens")
-        .doc("ps4966829@gmail.com")
-        .set({
-      'token': token,
-    });
-  }
-
-  void sendPushMessage(String token, String body, String title) async {
-    try {
-      await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization':
-              'key=AAAAxt0XGZM:APA91bFvpqq62Np51ytKveIiwgp_Z3-2lAvHuS5b8FVmzEOAcYbn2Mq22lq9EWVOXKFsZwhp0LLzy_Q1NJ_b88dyIiBXnGCBtASb0JZeNTTtXrIgj-oevjF1hMx6P_xfeCmz_xNSQ7tk',
-        },
-        body: jsonEncode(
-          <String, dynamic>{
-            'notification': <String, dynamic>{'body': body, 'title': title},
-            'priority': 'high',
-            'data': <String, dynamic>{
-              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-              'id': '1',
-              'status': 'done'
-            },
-            "to": token,
-          },
-        ),
-      );
-    } catch (e) {
-      print("error push notification");
-    }
-  }
-
-  void getToken() async {
-    await FirebaseMessaging.instance.getToken().then((token) {
-      setState(() {
-        mtoken = token;
-      });
-
-      saveToken(token!);
-    });
-  }
-
-  void requestPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
-      print('User granted provisional permission');
-    } else {
-      print('User declined or has not accepted permission');
-    }
-  }
-
-  void listenFCM() async {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      if (notification != null && android != null && !kIsWeb) {
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(
-              channel.id,
-              channel.name,
-              // TODO add a proper drawable resource to android, for now using
-              //      one that already exists in example app.
-              icon: 'launch_background',
-            ),
-          ),
-        );
+  Future<bool> callOnFcmApiSendPushNotifications(
+      {required String title, required String body}) async {
+    const postUrl = 'https://fcm.googleapis.com/fcm/send';
+    final data = {
+      "to": "/topics/all",
+      "notification": {
+        "title": title,
+        "body": body,
+        "sound": "default",
+      },
+      "data": {
+        "type": '0rder',
+        "id": '28',
+        "click_action": 'FLUTTER_NOTIFICATION_CLICK',
       }
-    });
+    };
+
+    final headers = {
+      'content-type': 'application/json',
+      'Authorization':
+          'key=AAAAxt0XGZM:APA91bFvpqq62Np51ytKveIiwgp_Z3-2lAvHuS5b8FVmzEOAcYbn2Mq22lq9EWVOXKFsZwhp0LLzy_Q1NJ_b88dyIiBXnGCBtASb0JZeNTTtXrIgj-oevjF1hMx6P_xfeCmz_xNSQ7tk',
+    };
+
+    final response = await http.post(Uri.parse(postUrl),
+        body: json.encode(data),
+        encoding: Encoding.getByName('utf-8'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      // on success do sth
+      print('test ok push CFM');
+      return true;
+    } else {
+      print(' CFM error');
+      // on failure do sth
+      return false;
+    }
   }
 
-  void loadFCM() async {
-    if (!kIsWeb) {
-      channel = const AndroidNotificationChannel(
-        'high_importance_channel', // id
-        'High Importance Notifications', // title
-        importance: Importance.high,
-        enableVibration: true,
-      );
-
-      flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-
-      /// Create an Android Notification Channel.
-      ///
-      /// We use this channel in the `AndroidManifest.xml` file to override the
-      /// default FCM channel to enable heads up notifications.
-      await flutterLocalNotificationsPlugin
-          .resolvePlatformSpecificImplementation<
-              AndroidFlutterLocalNotificationsPlugin>()
-          ?.createNotificationChannel(channel);
-
-      /// Update the iOS foreground notification presentation options to allow
-      /// heads up notifications.
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
-        alert: true,
-        badge: true,
-        sound: true,
-      );
-    }
+  void _incrementCounter() {
+    setState(() {
+      callOnFcmApiSendPushNotifications(
+          title: 'fcm by api2', body: 'its working fine2');
+      // This call to setState tells the Flutter framework that something has
+      // changed in this State, which causes it to rerun the build method below
+      // so that the display can reflect the updated values. If we changed
+      // _counter without calling setState(), then the build method would not be
+      // called again, and so nothing would appear to happen.
+      _counter++;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
     return Scaffold(
+      appBar: AppBar(
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          //title: Text(widget.title),
+          ),
       body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
         child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Invoke "debug painting" (press "p" in the console, choose the
+          // "Toggle Debug Paint" action from the Flutter Inspector in Android
+          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+          // to see the wireframe for each widget.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextFormField(
-              controller: username,
+          children: <Widget>[
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            TextFormField(
-              controller: title,
-            ),
-            TextFormField(
-              controller: body,
-            ),
-            GestureDetector(
-              onTap: () async {
-                String name = username.text.trim();
-                String titleText = title.text;
-                String bodyText = body.text;
-
-                if (name != "") {
-                  DocumentSnapshot snap = await FirebaseFirestore.instance
-                      .collection("UserTokens")
-                      .doc(name)
-                      .get();
-
-                  String token = snap['token'];
-                  print(token);
-
-                  sendPushMessage(token, titleText, bodyText);
-                }
-              },
-              child: Container(
-                height: 40,
-                width: 200,
-                color: Colors.red,
-              ),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline4,
             ),
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
-
-//   String? mtoken = " ";
-//   late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-//       FlutterLocalNotificationsPlugin();
-//   TextEditingController _emailController = TextEditingController();
-//   TextEditingController _itemController = TextEditingController();
-//   TextEditingController _totalController = TextEditingController();
-//   TextEditingController _statusController = TextEditingController();
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     requestPermission();
-//     getToken();
-//   }
-
-//   void requestPermission() async {
-//     FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-//     NotificationSettings settings = await messaging.requestPermission(
-//       alert: true,
-//       announcement: false,
-//       badge: true,
-//       carPlay: false,
-//       criticalAlert: false,
-//       provisional: false,
-//       sound: true,
-//     );
-
-//     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-//       print('User granted permission');
-//     } else if (settings.authorizationStatus ==
-//         AuthorizationStatus.provisional) {
-//       print('User provisional permission');
-//     } else {
-//       print('User declined or has not accepted permission');
-//     }
-//   }
-
-//   void getToken() async {
-//     await FirebaseMessaging.instance.getToken().then((token) {
-//       setState(() {
-//         mtoken = token;
-//         print("My token is $mtoken");
-//       });
-//       saveToken(token!);
-//     });
-//   }
-
-//   void saveToken(String token) async {
-//     await FirebaseFirestore.instance
-//         .collection("usertokens")
-//         .doc("ps4966829@gmail.com")
-//         .set({
-//       'token': token,
-//     });
-//   }
-
-// // call from button
-//   void sendPushMessage(String token, String body, String title) async {
-//     try {
-//       await http.post(
-//         Uri.parse('http://fcm.googleapis.com/fcm/send'),
-//         headers: <String, String>{
-//           'Content-Type': 'application/json',
-//           'Authorization':
-//               'key=AAAAxt0XGZM:APA91bFvpqq62Np51ytKveIiwgp_Z3-2lAvHuS5b8FVmzEOAcYbn2Mq22lq9EWVOXKFsZwhp0LLzy_Q1NJ_b88dyIiBXnGCBtASb0JZeNTTtXrIgj-oevjF1hMx6P_xfeCmz_xNSQ7tk'
-//         },
-//         body: jsonEncode(
-//           <String, dynamic>{
-//             'priority': 'high',
-//             'data': <String, dynamic>{
-//               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-//               'status': 'done',
-//               'body': body,
-//               'title': title,
-//             },
-//             "notification": <String, dynamic>{
-//               "title": title,
-//               "android_channel_id": "dbfood"
-//             },
-//             "to": token,
-//           },
-//         ),
-//       );
-//     } catch (e) {
-//       if (kDebugMode) {
-//         print("error push notification");
-//       }
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         //backgroundColor: Colors.orange,
-//         body: SafeArea(
-//             child: Padding(
-//       padding: EdgeInsets.all(20.w),
-//       child: SingleChildScrollView(
-//         scrollDirection: Axis.vertical,
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             GestureDetector(
-//               onTap: (() async {
-//                 String email = "ps4966829@gmail.com";
-//                 String title = "Your Food is being ";
-//                 String body = "body";
-
-//                 if (email != "") {
-//                   DocumentSnapshot snap = await FirebaseFirestore.instance
-//                       .collection("usertokens")
-//                       .doc(email)
-//                       .get();
-
-//                   String token = snap['token'];
-//                   print(token);
-
-//                   sendPushMessage(token, body, title);
-//                 }
-//               }),
-//             ),
-//           ],
-//         ),
-//       ),
-//     )));
-//   }
 }

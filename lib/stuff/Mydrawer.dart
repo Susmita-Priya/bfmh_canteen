@@ -16,6 +16,7 @@ import 'package:bfmh_canteen/stuff/loginstaff.dart';
 import 'package:bfmh_canteen/stuff/notifications.dart';
 import 'package:bfmh_canteen/stuff/oderlist.dart';
 import 'package:bfmh_canteen/stuff/prac.dart';
+import 'package:bfmh_canteen/stuff/tracesee.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,7 +181,31 @@ class _MyDrawerState extends State<MyDrawer> {
                 ),
               ),
             ),
-            Divider(indent: 18, endIndent: 16),
+            // Divider(indent: 18, endIndent: 16),
+            // ListTile(
+            //   leading: Icon(
+            //     Icons.restaurant,
+            //     color: Colors.black,
+            //   ),
+            //   title: GestureDetector(
+            //     onTap: () {
+            //       Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //           builder: (context) => addproduct(),
+            //         ),
+            //       );
+            //     },
+            //     child: Text(
+            //       "delete Status",
+            //       textScaleFactor: 1.2,
+            //       style: TextStyle(
+            //         color: Colors.black,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            Divider(indent: 16, endIndent: 16),
             ListTile(
               leading: Icon(
                 Icons.restaurant,
@@ -191,36 +216,12 @@ class _MyDrawerState extends State<MyDrawer> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => addproduct(),
+                      builder: (context) => tracesee(),
                     ),
                   );
                 },
                 child: Text(
-                  "delete Status",
-                  textScaleFactor: 1.2,
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-            ),
-            Divider(indent: 16, endIndent: 16),
-            ListTile(
-              leading: Icon(
-                Icons.notification_add,
-                color: Colors.black,
-              ),
-              title: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => notification(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "Notification",
+                  "Order Status",
                   textScaleFactor: 1.2,
                   style: TextStyle(
                     color: Colors.black,

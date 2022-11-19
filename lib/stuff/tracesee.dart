@@ -1,21 +1,20 @@
-import 'package:bfmh_canteen/screen/bottom_nav_pages/trace_food.dart';
 import 'package:bfmh_canteen/stuff/trace.dart';
+import 'package:bfmh_canteen/stuff/trace1.dart';
 import 'package:bfmh_canteen/widgets/fetchfeedback.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-class order extends StatefulWidget {
-  const order({super.key});
+class tracesee extends StatefulWidget {
+  const tracesee({super.key});
 
   @override
-  State<order> createState() => _orderState();
+  State<tracesee> createState() => _traceseeState();
 }
 
-class _orderState extends State<order> {
-  Widget orderlist(String collectionName) {
+class _traceseeState extends State<tracesee> {
+  Widget trsee(String collectionName) {
     String? email1 = FirebaseAuth.instance.currentUser!.email;
     return Container(
       child: Stack(
@@ -50,18 +49,14 @@ class _orderState extends State<order> {
                             "${_documentSnapshot['email']}",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                                fontSize: 16.h),
+                                color: Colors.orange,
+                                fontSize: 19.h),
                           ),
                           subtitle: Text(
-                            "(" +
-                                _documentSnapshot['item_name'] +
-                                ")" +
-                                "\n\nTotal = ${_documentSnapshot['total'].toString()}",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange,
-                            ),
+                            "(${_documentSnapshot['item']})"
+                            "\n${_documentSnapshot['status']}"
+                            "\n(${_documentSnapshot['total']})",
+                            style: TextStyle(color: Colors.black),
                           ),
                           trailing: SizedBox(
                             width: 50,
@@ -72,7 +67,7 @@ class _orderState extends State<order> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (_) => trace(
+                                              builder: (_) => trace1(
                                                   _documentSnapshot
                                                   // name: widget._product['product-name'],
                                                   // des: widget._product['product-description'],
@@ -82,12 +77,27 @@ class _orderState extends State<order> {
                                                   )));
                                     },
                                     icon: const Icon(
-                                      Icons.notification_add,
-                                      color: Color.fromARGB(137, 0, 102, 9),
+                                      Icons.edit,
+                                      color: Color.fromARGB(255, 7, 160, 20),
                                     )),
                               ],
                             ),
-                          )),
+                          )
+                          // trailing: GestureDetector(
+                          //   child: CircleAvatar(
+                          //     child: Icon(Icons.delete,
+                          //         color: Color.fromARGB(255, 231, 5, 5)),
+                          //   ),
+                          //   onTap: () {
+                          //     FirebaseFirestore.instance
+                          //         .collection(collectionName)
+                          //         .doc(FirebaseAuth.instance.currentUser!.email)
+                          //         .collection("items")
+                          //         .doc(_documentSnapshot.id)
+                          //         .delete();
+                          //   },
+                          // ),
+                          ),
                     );
                   });
             },
@@ -102,7 +112,7 @@ class _orderState extends State<order> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "OrderList",
+          "Order Status",
           style: TextStyle(
             //fontSize: 35,
             fontWeight: FontWeight.bold,
@@ -127,7 +137,7 @@ class _orderState extends State<order> {
         //     )
         //   ],
         // )
-        child: orderlist("order"),
+        child: trsee("trace"),
         //customButton("Continue", () => sendUserDataToDB()),
       ),
     );
